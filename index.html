@@ -4,9 +4,77 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
     <title>The Bug Free Code Quiz</title>
 </head>
 <body>
-
+    <header>
+        <h1>The Bug Free Code Quiz 🐜⛔</h1>
+    </header>
+    <main>
+        <div class="card tracker-card" id="tracker-card">
+            <h2>Tracker</h2>
+            <p>Question <span class="flex-span" id="question-number">1</span> of <span class="flex-span" id="total-questions">4</span></p>
+            <li class="timer">Time: <span id="time">0</span></li>
+        </div>
+        <div class="card intro-card" id="intro-card">
+            <h2>Instructions</h2>
+            <p>Answer the following questions about code to test your knowledge. Keep in mind that the code is bug free.</p>
+            <li><button>Start Quiz</button></li>
+        </div>
+        <div class="card question-card" id="question-1">
+            <h2 class="question-title">Question 1</h2>
+            <p class="question-text">What is the correct syntax for referring to an external script called "script.js"?</p>
+            <ul>
+                <li><button>script src="script.js"</button></li>
+                <li><button>script href="script.js"</button></li>
+                <li><button>script name="script.js"</button></li>
+                <li><button>script ref="script.js"</button></li>
+            </ul>
+        </div>
+        <div class="card question-card" id="question-2">
+            <h2 class="question-title">Question 2</h2>
+            <p class="question-text">How do you write "Hello World" in an alert box?</p>
+            <ul>
+                <li><button class="quesiton-answer">alertBox("Hello World")</button></li>
+                <li><button class="quesiton-answer">msgBox("Hello World")</button></li>
+                <li><button class="quesiton-answer">msg("Hello World")</button></li>
+                <li><button class="quesiton-answer">alert("Hello World")</button></li>
+            </ul>
+        </div>
+        <div class="card question-card" id="question-3">
+            <h2 class="question-title">Question 3</h2>
+            <p class="question-text">How do you create a function in JavaScript?</p>
+            <ul>
+                <li><button class="quesiton-answer">function:myFunction()</button></li>
+                <li><button class="quesiton-answer">function myFunction()</button></li>
+                <li><button class="quesiton-answer">function = myFunction()</button></li>
+            </ul>
+        </div>
+        <div class="card question-card" id="question-4">
+            <h2 class="question-title">Question 4</h2>
+            <p class="question-text">How do you call a function named "myFunction"?</p>
+            <ul>
+                <li><button class="quesiton-answer">call myFunction()</button></li>
+                <li><button class="quesiton-answer">call function myFunction()</button></li>
+                <li><button class="quesiton-answer">myFunction()</button></li>
+            </ul>
+        </div>
+        <div class="card question-card" id="question-5">
+            <h2 class="question-title">Question 5</h2>
+            <p class="question-text">How to write an IF statement in JavaScript?</p>
+            <ul>
+                <li><button class="quesiton-answer">if i = 5</button></li>
+                <li><button class="quesiton-answer">if i == 5 then</button></li>
+                <li><button class="quesiton-answer">if (i == 5)</button></li>
+                <li><button class="quesiton-answer">if i = 5 then</button></li>
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <p>© 2021 The Bug Free Code Quiz</p>
+    </footer>
+    <script src="./assets/js/script.js"></script>
 </body>
 </html>
