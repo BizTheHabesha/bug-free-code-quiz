@@ -121,7 +121,7 @@ button:hover{
     margin-top: 20px;
     padding: 10px;
     width: 100%;
-    display: block;
+    display: none;
 }
 .card > *{
     display: flex;
@@ -132,13 +132,16 @@ button:hover{
     font-weight: 700;
     margin: 10px 0;
 }
+.question-card::after{
+    content: "";
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0;
+    display:flex;
+    justify-content: center;
+}
 .flex-span{
     padding: 0px 3px;
-}
-.timer{
-    border: 1px solid var(--tertiary-background-color);
-    /* display: inline-block; */
-    padding: 5px 10px;
 }
 .stacked-button{
     margin-bottom: 10px;
@@ -152,13 +155,11 @@ button:hover{
 .input-container > *{
     margin: 0 5px;
 }
-.ca:focus{
-    outline: solid 3px var(--success-color-focus);
-    box-shadow:unset 0 1px 1px var(--success-color), 0 0 8px var(--success-color-focus);
-}
-.ia:focus{
-    outline: solid 3px var(--danger-color-focus);
-    box-shadow: 0 0 1px 1px var(--dark-color), 0 0 8px var(--danger-color-focus);
+#timerli{
+    border: 3px solid var(--tertiary-background-color);
+    /* display: inline-block; */
+    padding: 5px 10px;
+    transition: all 1s;
 }
 #tracker-card{
     display: block;
