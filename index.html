@@ -15,13 +15,13 @@
     <main>
         <div class="card tracker-card" id="tracker-card">
             <h2 id="tracker-card-title">Tracker</h2>
-            <p id="tracker-card-tracker">Question <span class="flex-span" id="question-number">1</span> of <span class="flex-span total-questions">5</span></p>
+            <p id="tracker-card-tracker">Question <span class="flex-span question-number">1</span> of <span class="flex-span total-questions">5</span></p>
             <li id="timerli"><span id="time">0</span></li>
         </div>
-        <div data-nextnode="question-1" class="card question-card intro-card" id="intro-card">
+        <div data-nextnode="question-1" data-exempt="exempt" class="card question-card intro-card" id="intro-card">
             <h2>Instructions</h2>
             <p>Answer the following questions about code to test your knowledge. Keep in mind that the code is bug free.</p>
-            <li><button data-answer = "c" class="question-answer">Start Quiz</button></li>
+            <li><button data-exempt="exempt" data-answer = "c" class="question-answer" id="start">Start Quiz</button></li>
         </div>
         <div data-nextnode="question-2" class="card question-card" id="question-1">
             <h2 class="question-title">Question 1</h2>
@@ -73,7 +73,7 @@
         </div>
         <div class="card review-card" id="review-card">
             <h2>Review</h2>
-            <p>You got <span class="flex-span" id="correct-answers">0</span> out of <span class="flex-span total-questions">5</span> correct.</p>
+            <p>You answered <span class="flex-span question-number">0</span> out of <span class="flex-span total-questions">5</span> questions, with a score of <span class="flex-span" id="score">0</span>.</p>
             <div class="input-container">
                 <input type="text" id="initials" name="initials" placeholder="Initials">
             </div>
