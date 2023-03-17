@@ -121,7 +121,7 @@ button:hover{
     margin-top: 20px;
     padding: 10px;
     width: 100%;
-    display: block;
+    display: none;
 }
 .card > *{
     display: flex;
@@ -156,11 +156,11 @@ button:hover{
     margin: 0 5px;
 }
 #timerli{
-    /* border: 1px solid var(--tertiary-background-color); */
+    border: 3px solid var(--tertiary-background-color);
     /* display: inline-block; */
     padding: 5px 10px;
+    transition: all 1s;
 }
-
 #tracker-card{
     display: block;
     margin-top: 70px;
