@@ -15,22 +15,22 @@
     <main>
         <div class="card tracker-card" id="tracker-card">
             <h2>Tracker</h2>
-            <p>Question <span class="flex-span" id="question-number">1</span> of <span class="flex-span" id="total-questions">5</span></p>
-            <li class="timer">Time: <span id="time">0</span></li>
+            <p>Question <span class="flex-span" id="question-number">1</span> of <span class="flex-span total-questions">5</span></p>
+            <li id="timerli">Time: <span id="time">0</span></li>
         </div>
         <div class="card question-card intro-card" id="intro-card">
             <h2>Instructions</h2>
             <p>Answer the following questions about code to test your knowledge. Keep in mind that the code is bug free.</p>
-            <li><button>Start Quiz</button></li>
+            <li><button data-answer = "c">Start Quiz</button></li>
         </div>
         <div class="card question-card" id="question-1">
             <h2 class="question-title">Question 1</h2>
             <p class="question-text">What is the correct syntax for referring to an external script called "script.js"?</p>
             <ul>
-                <li><button data-answer = "c" class="question-answer ca">script src="script.js"</button></li>
-                <li><button data-answer = "i" class="question-answer ia">script href="script.js"</button></li>
-                <li><button data-answer = "i" class="question-answer ia">script name="script.js"</button></li>
-                <li><button data-answer = "i" class="question-answer ia">script ref="script.js"</button></li>
+                <li><button data-answer = "c" class="question-answer">script src="script.js"</button></li>
+                <li><button data-answer = "i" class="question-answer">script href="script.js"</button></li>
+                <li><button data-answer = "i" class="question-answer">script name="script.js"</button></li>
+                <li><button data-answer = "i" class="question-answer">script ref="script.js"</button></li>
             </ul>
         </div>
         <div class="card question-card" id="question-2">
@@ -73,12 +73,12 @@
         </div>
         <div class="card review-card" id="review-card">
             <h2>Review</h2>
-            <p>You got <span class="flex-span" id="correct-answers">0</span> out of <span class="flex-span" id="total-questions">5</span> correct.</p>
+            <p>You got <span class="flex-span" id="correct-answers">0</span> out of <span class="flex-span total-questions">5</span> correct.</p>
             <div class="input-container">
                 <input type="text" id="initials" name="initials" placeholder="Initials">
             </div>
             <li><button class="stacked-button">Save Score</button></li>
-            <li><button>Try Again</button></li>
+            <li><button id="try-again">Try Again</button></li>
         </div>
     </main>
     <footer>
