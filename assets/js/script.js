@@ -1,12 +1,13 @@
 var questionCardEls = document.getElementsByClassName('question-card');
-var answerButtons = docuemtn.getElementsByClassName('question-answer')
+var answerButtons = document.getElementsByClassName('question-answer')
 var introCardEl = document.getElementById('intro-card');
-var trackerCardEl = document.getElementById('intro-card');
+var trackerCardEl = document.getElementById('tracker-card');
 var numQuestions = questionCardEls.length;
 var currentQuestion = introCardEl;
 
 // user gains 10 pts for a correctly answered question, then the current
 // question is hidden and the next question displays
+// final score is the sum of seconds left and points gained
 function correctAnswer(){
     return true;
 }
@@ -27,6 +28,12 @@ function review(){
 }
 for (let button of answerButtons) {
     button.addEventListener("click", function(event){
-        alert('click');
+        if (event.currentTarget.dataset.answer === "correct"){
+            // correctAnswer();
+            alert('correct');
+        } else {
+            // incorrectAnswer();
+            alert('incorrect');
+        }
     });
 }

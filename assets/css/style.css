@@ -121,7 +121,7 @@ button:hover{
     margin-top: 20px;
     padding: 10px;
     width: 100%;
-    display:block;
+    display: block;
 }
 .card > *{
     display: flex;
@@ -152,6 +152,14 @@ button:hover{
 .input-container > *{
     margin: 0 5px;
 }
+.ca:focus{
+    outline: solid 3px var(--success-color-focus);
+    box-shadow:unset 0 1px 1px var(--success-color), 0 0 8px var(--success-color-focus);
+}
+.ia:focus{
+    outline: solid 3px var(--danger-color-focus);
+    box-shadow: 0 0 1px 1px var(--dark-color), 0 0 8px var(--danger-color-focus);
+}
 #tracker-card{
     display: block;
     margin-top: 70px;
@@ -160,7 +168,7 @@ button:hover{
     display: block;
 }
 #review-card{
-    display: block;
+    margin-bottom: 70px;
 }
 #initials{
     text-align: center;
