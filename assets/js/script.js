@@ -80,11 +80,7 @@ function main(){
                     getComputedStyle(rootCSS).getPropertyValue('--danger-color-focus');
                 // user looses 5 points for an incorrect answer. extra failsafe for nonnegatives provides user with a
                 // better chance to get out of a ditch
-                if(score <= 0){
-                    score = 0;
-                }else{
-                    score-=5;
-                }
+                score <= 0 ? score = 0 : score-=5;
                 // remove styling after 3 seconds
                 let penaltyStylingTimer = setInterval(() => {
                     timerLiEl.style.boxShadow = 'none';
@@ -98,6 +94,14 @@ function main(){
     })
     document.getElementById('start').addEventListener('click', function(){
         setTime();
+    })  
+    document.getElementById('save-score').addEventListener('click',function(){
+        let newScore = {
+            initials: document.getElementById('initials').value,
+            scoreIn: score
+        }
+        console.log(newScore);
+        localStorage.setItem('highscore',JSON.stringify(newScore)); 
     })
     return true;
 }
@@ -111,11 +115,11 @@ function setTime() {
         // update on-screen timer
         timerEl.textContent = " " + secondsLeft + " seconds remaining.";
         // at half timing the timer will gain a 'warning' styling
-        if(secondsLeft === Math.floor(initSecondsLeft/2)){
+        if(secondsLeft <= Math.floor(initSecondsLeft/2)){
             timerLiEl.style.border = "solid 3px " + getComputedStyle(rootCSS).getPropertyValue('--warning-color');
         }
         // at quarter time the timer will show a 'danger' styling
-        if(secondsLeft === Math.floor(initSecondsLeft/4)){
+        if(secondsLeft <= Math.floor(initSecondsLeft/4)){
             timerLiEl.style.border = "solid 3px " + getComputedStyle(rootCSS).getPropertyValue('--danger-color');
         }
         // alternative text styling at specified time
