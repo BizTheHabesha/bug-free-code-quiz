@@ -170,15 +170,26 @@ function review(src){
     }else if(src === 'questions'){
         timerLiEl.textContent = "You answered every question in time! How'd you do?";
     }
-    // display all cards for the user to review
-    for(let card of questionCardEls){
-        if(card.dataset.exempt != 'exempt'){
-            // reveal all questions for user to review
-            card.style.display = 'block'
+    function toggleCards(hide){
+        // display all cards for the user to review
+        hide ? document.getElementById('review-card').style.display = 'none' : 
+        document.getElementById('review-card').style.display = 'block';
+        for(let card of questionCardEls){
+            if(card.dataset.exempt != 'exempt'){
+                // reveal all questions for user to review
+                hide ? card.style.display = 'none' : card.style.display = 'block';
+            }
         }
     }
-    // display the review card containing the score, a place to put intials, and a submit and try again button.
-    document.getElementById('review-card').style.display = 'block';
+    toggleCards(false);
+    document.getElementById('view-highscores').addEventListener('click', function(){
+        toggleCards(true);
+        document.getElementById('highscores-card').style.display = 'block';
+    })
+    document.getElementById('go-back').addEventListener('click', function(){
+        toggleCards(false);
+        document.getElementById('highscores-card').style.display = 'none';
+    })
 }
 
 main();

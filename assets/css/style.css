@@ -184,3 +184,7 @@ button:hover{
     font-size: 14px;
     font-weight: 400;
 }
+#highscores-card{
+    margin-bottom: 70px;
+    width: 100%;
+}
