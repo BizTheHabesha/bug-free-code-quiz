@@ -122,10 +122,12 @@ button:hover{
     padding: 10px;
     width: 100%;
     display: none;
+    transition: 1s;
 }
 .card > *{
     display: flex;
     justify-content: center;
+    transition:1s;
 }
 .card > span{
     font-size: 20px;
@@ -150,10 +152,31 @@ button:hover{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px 0;
+    margin-top: 10px;
 }
 .input-container > *{
     margin: 0 5px;
+}
+.error-message{
+    display: block;
+    color: transparent;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+    transition: 1s;
+}
+.highscore-li{
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid var(--tertiary-background-color);
+    border-radius: 3px;
+    margin: 5px 0;
+    transition: 1s;
+    text-align: center;
 }
 #timerli{
     border: 3px solid var(--tertiary-background-color);
@@ -181,4 +204,11 @@ button:hover{
     color: var(--footer-text-color);
     font-size: 14px;
     font-weight: 400;
+}
+#highscores-card{
+    margin-bottom: 70px;
+    width: 100%;
+}
+#highscores-list{
+    display: block;
 }

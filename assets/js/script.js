@@ -21,6 +21,8 @@ var timerInterval;
 // create a globally scoped variable to check if we are in review mode or not. This disables some
 // features that should only be active during a game.
 var reviewMode = false;
+var highscoresArr = [];
+var highscoreSet = false;
 // user gains 10 pts for a correctly answered question, looses 5 second for an incorrectly 
 // answered question. then, if correct, the current question is hidden and the next question displays
 // final score is the sum of seconds left and points gained
@@ -30,14 +32,26 @@ function main(){
     for(let tqs of document.getElementsByClassName('total-questions')){
         tqs.textContent = questionCardEls.length - 1;
     }
+    for(let i = 0; i < 10; i++){
+        if(localStorage.getItem(`highscore-${i}`) === null){
+            console.log(`loaded ${i} highscore(s)`);
+            break;
+        }else{
+            highscoresArr.push(JSON.parse(localStorage.getItem(`highscore-${i}`)));
+        }
+    }
+    highscoresArr.sort(function(a,b){return b['scoreIn'] - a['scoreIn'];})
+    console.log(localStorage.length)
     timerEl.textContent = 'Press the \'Start Quiz\' button to begin.'
     // initialize onclick for answer buttons
     for (let button of document.getElementsByClassName('question-answer')) {
         button.addEventListener("click", function(event){
+            // get the button that was clicked as an element
             var pb = event.currentTarget;
             // TODO: current model does not obfuscate correct answer from the inspect feature
             // built into browsers.
             if (pb.dataset.answer === "c" && !reviewMode){
+                // excludes buttons which are marked as answers for styling, but shouldn't be used here
                 if(pb.dataset.exempt != 'exempt'){
                     // applies permanent effect to buttons which will be useful in review mode.
                     pb.style.border = "solid 1px " + getComputedStyle(rootCSS).getPropertyValue('--success-color');
@@ -48,7 +62,9 @@ function main(){
                 let nextQuestion = document.getElementById(currentQuestion.dataset.nextnode);
                 // if the next node is empty, then the user has reached the last question.
                 if(nextQuestion == null){
+                    //stop the timer
                     clearInterval(timerInterval);
+                    // enter review mode, specifiying it was because the user answered all questions
                     review('questions');
                     return;
                 }
@@ -56,8 +72,9 @@ function main(){
                 nextQuestion.style.display = 'block';
                 // set the current question to the next question for next iteration.
                 currentQuestion = nextQuestion;
-                // number of questions answered is updated
+                // number of questions answered is increased
                 questionsAnswered++;
+                // update any question number trackers on the page
                 for(let questionTrackers of document.getElementsByClassName('question-number')){
                     questionTrackers.textContent = questionsAnswered;
                 }
@@ -70,8 +87,7 @@ function main(){
                 // time immedietly to avoid 1 second delay
                 if(secondsLeft > 0){
                     secondsLeft-=5;
-                }
-                if(secondsLeft <= 0){
+                }else{
                     secondsLeft = 0;
                 }
                 timerEl.textContent = " " + secondsLeft + " seconds remaining.";
@@ -80,11 +96,7 @@ function main(){
                     getComputedStyle(rootCSS).getPropertyValue('--danger-color-focus');
                 // user looses 5 points for an incorrect answer. extra failsafe for nonnegatives provides user with a
                 // better chance to get out of a ditch
-                if(score <= 0){
-                    score = 0;
-                }else{
-                    score-=5;
-                }
+                score <= 0 ? score = 0 : score-=5;
                 // remove styling after 3 seconds
                 let penaltyStylingTimer = setInterval(() => {
                     timerLiEl.style.boxShadow = 'none';
@@ -96,50 +108,88 @@ function main(){
     document.getElementById('try-again').addEventListener("click", function(event){
         window.location.reload();
     })
-    document.getElementById('start').addEventListener('click', function(){
-        setTime();
+    document.getElementById('start').addEventListener('click', function(e){
+        e.preventDefault();
+        // Initialize timer
+        timerEl.textContent = " " + secondsLeft + " seconds remaining.";
+        // Sets interval in variable such that the interval counts in seconds
+        timerInterval = setInterval(function() {
+            // decrement timer every second
+            secondsLeft--;
+            // update on-screen timer
+            timerEl.textContent = " " + secondsLeft + " seconds remaining.";
+            // at half timing the timer will gain a 'warning' styling
+            if(secondsLeft <= Math.floor(initSecondsLeft/2)){
+                timerLiEl.style.border = "solid 3px " + getComputedStyle(rootCSS).getPropertyValue('--warning-color');
+            }
+            // at quarter time the timer will show a 'danger' styling
+            if(secondsLeft <= Math.floor(initSecondsLeft/4)){
+                timerLiEl.style.border = "solid 3px " + getComputedStyle(rootCSS).getPropertyValue('--danger-color');
+            }
+            // alternative text styling at specified time
+            if(secondsLeft <= lastFewSeconds){
+                timerLiEl.style.color = getComputedStyle(rootCSS).getPropertyValue('--danger-color-focus');
+                // font weight cannot be animated in vanilla CSS. Using text shadow mostly gives
+                // the intended effect, however.
+                timerLiEl.style.textShadow = '-1px -1px 0 '+ getComputedStyle(rootCSS).getPropertyValue('--danger-color') +
+                ',1px -1px 0 '+ getComputedStyle(rootCSS).getPropertyValue('--danger-color') +
+                ',-1px 1px 0 '+getComputedStyle(rootCSS).getPropertyValue('--danger-color')+
+                ',1px 1px 0 '+getComputedStyle(rootCSS).getPropertyValue('--danger-color');
+            }
+            // once the timer is done, remove the timer and enter review mode
+            if(secondsLeft <= 0) {
+                // Stops execution of action at set interval
+                clearInterval(timerInterval);
+                // Calls function to enter review mode under the pretense the user ran out of time
+                review('time');
+            }
+        }, 1000);
+    })  
+    document.getElementById('save-score').addEventListener('click',function(e){
+        e.preventDefault()
+        if(!highscoreSet){
+            let scorePlaced = false;
+            let newScore = {
+                initials: document.getElementById('initials').value,
+                scoreIn: score,
+                storageIndex: 0
+            };  
+            for(let i = 0; i < 10; i++){
+                if(localStorage.getItem(`highscore-${i}`) === null){
+                    newScore.storageIndex = i;
+                    localStorage.setItem(`highscore-${i}`,JSON.stringify(newScore));
+                    highscoresArr.push(newScore);
+                    highscoresArr.sort(function(a,b){return b['scoreIn'] - a['scoreIn'];});
+                    scorePlaced = true;
+                    break;
+                }
+            }
+            if(!scorePlaced){
+                highscoresArr.push(newScore);
+                highscoresArr.sort(function(a,b){return b['scoreIn'] - a['scoreIn'];});
+                localStorage.removeItem(`highscore-${highscoresArr.pop().storageIndex}`);
+            }
+            highscoreSet = true;
+        }else{
+            hsem = document.getElementById('score-saved-error-message');
+            hsem.style.color = getComputedStyle(rootCSS).getPropertyValue('--danger-color');
+            hsemInterval = setInterval(function(){
+                hsem.style.color = 'transparent';
+                clearInterval(hsemInterval);
+            }, 2000)
+        }  
     })
-    return true;
+    return 0;
 }
 function setTime() {
-    // Initialize timer
-    timerEl.textContent = " " + secondsLeft + " seconds remaining.";
-    // Sets interval in variable such that the interval counts in seconds
-    timerInterval = setInterval(function() {
-        // decrement timer every second
-        secondsLeft--;
-        // update on-screen timer
-        timerEl.textContent = " " + secondsLeft + " seconds remaining.";
-        // at half timing the timer will gain a 'warning' styling
-        if(secondsLeft === Math.floor(initSecondsLeft/2)){
-            timerLiEl.style.border = "solid 3px " + getComputedStyle(rootCSS).getPropertyValue('--warning-color');
-        }
-        // at quarter time the timer will show a 'danger' styling
-        if(secondsLeft === Math.floor(initSecondsLeft/4)){
-            timerLiEl.style.border = "solid 3px " + getComputedStyle(rootCSS).getPropertyValue('--danger-color');
-        }
-        // alternative text styling at specified time
-        if(secondsLeft <= lastFewSeconds){
-            timerLiEl.style.color = getComputedStyle(rootCSS).getPropertyValue('--danger-color-focus');
-            // font weight cannot be animated in vanilla CSS. Using text shadow mostly gives
-            // the intended effect, however.
-            timerLiEl.style.textShadow = '-1px -1px 0 '+ getComputedStyle(rootCSS).getPropertyValue('--danger-color') +
-            ',1px -1px 0 '+ getComputedStyle(rootCSS).getPropertyValue('--danger-color') +
-            ',-1px 1px 0 '+getComputedStyle(rootCSS).getPropertyValue('--danger-color')+
-            ',1px 1px 0 '+getComputedStyle(rootCSS).getPropertyValue('--danger-color');
-        }
-        // once the timer is done, remove the timer and enter review mode
-        if(secondsLeft <= 0) {
-            // Stops execution of action at set interval
-            clearInterval(timerInterval);
-            // Calls function to enter review mode under the pretense the user ran out of time
-            review('time');
-        }
-    }, 1000);
+    return 0;
 }
 // once the game ends, either via timeout or via a win, enter review mode.
 function review(src){
-    // now that the game is done, end the timer
+    // for use later in updating and clearing score list
+    var highScoresOl = document.getElementById('highscores-list');
+    // now that the game is done, end the timer, and extra failsafe if one of the other clearIntervals is missed.
+    // and the reason timerInterval needs to be scoped globally
     clearInterval(timerInterval);
     // add the seconds left to the score if this make the score nonnegative, otherwise make the score zero
     // e.g. the score cannot be negative.
@@ -166,15 +216,56 @@ function review(src){
     }else if(src === 'questions'){
         timerLiEl.textContent = "You answered every question in time! How'd you do?";
     }
-    // display all cards for the user to review
-    for(let card of questionCardEls){
-        if(card.dataset.exempt != 'exempt'){
-            // reveal all questions for user to review
-            card.style.display = 'block'
+    // a local function to toggle cards. for later on.
+    function toggleCards(hide){
+        // display or hide review card
+        hide ? document.getElementById('review-card').style.display = 'none' : 
+        document.getElementById('review-card').style.display = 'block';
+        // display or hide non-exempted question cards
+        for(let card of questionCardEls){
+            if(card.dataset.exempt != 'exempt'){
+                // reveal all questions for user to review
+                hide ? card.style.display = 'none' : card.style.display = 'block';
+            }
         }
     }
-    // display the review card containing the score, a place to put intials, and a submit and try again button.
-    document.getElementById('review-card').style.display = 'block';
+    // by default, once the game ends, toggle all cards on for review
+    toggleCards(false);
+    document.getElementById('clear-highscores').addEventListener('click', function(e){
+        e.preventDefault();
+        localStorage.clear()
+        for(let i = 0; i < highscoresArr.length; i++){
+            highscoresArr.pop();
+        }
+        highScoresOl.innerHTML = '';
+
+    })
+    // if the user wants to see high scores, then hide the other cards and display the score card
+    document.getElementById('view-highscores').addEventListener('click', function(e){
+        e.preventDefault();
+        let scoresRendered = false;
+        if(!scoresRendered){
+            highScoresOl.innerHTML = '';
+            let i = 0;
+            for(let scoreFromArr of highscoresArr){
+                i++;
+                let newEntry = document.createElement('li');
+                newEntry.setAttribute('class','highscore-li')
+                newEntry.textContent = `${i}) ${scoreFromArr.initials} got ${scoreFromArr.scoreIn} points`
+                highScoresOl.appendChild(newEntry);
+                highScoresOl.appendChild(document.createElement('br'))
+            }
+            scoresRendered = true;
+        }
+        toggleCards(true);
+        document.getElementById('highscores-card').style.display = 'block';
+    })
+    // undo the previous 
+    document.getElementById('go-back').addEventListener('click', function(e){
+        e.preventDefault();
+        toggleCards(false);
+        document.getElementById('highscores-card').style.display = 'none';
+    })
 }
 
 main();
