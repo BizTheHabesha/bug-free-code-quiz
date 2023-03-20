@@ -218,9 +218,6 @@ function main(){
     })
     return 0;
 }
-function setTime() {
-    return 0;
-}
 // once the game ends, either via timeout or via a win, enter review mode.
 function review(src){
     // for use later in updating and clearing score list
