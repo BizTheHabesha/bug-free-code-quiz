@@ -1,3 +1,4 @@
+/* Variables */
 :root{
     --primary-color: #007bff;
     --secondary-color: #6c757d;
@@ -50,6 +51,7 @@
     --white-color-focus: #d6d6d6;
     --std-line-height: 1.5;
 }
+/* Global */
 header{
     background-color: var(--primary-background-color);
     border-bottom: 1px solid var(--tertiary-background-color);
@@ -64,6 +66,7 @@ header{
     width: 100%;
     text-align: center;
 }
+/* Main */
 body{
     background-color: var(--secondary-background-color);
     font-family: 'Open Sans', sans-serif;
@@ -75,6 +78,7 @@ body{
     align-items: center;
     justify-content: center;
 }
+/* Footer */
 footer{
     background-color: var(--primary-background-color);
     border-top: 1px solid var(--tertiary-background-color);
@@ -90,6 +94,7 @@ footer{
     text-align: center;
     width: 100%;
 }
+/* Buttons */
 button{
     background-color: var(--light-color);
     border: 1px solid var(--tertiary-background-color);
@@ -106,12 +111,14 @@ button{
     white-space: nowrap;
     transition: 0.5s;
 }
+/* Buttons Hover */
 button:hover{
     background-color: var(--light-color-hover);
     border-color: var(--light-color-hover);
     color: var(--gray-dark-color-hover);
     transition: 0.5s;
 }
+/* Cards */
 .card{
     background-color: #fff;
     border: 1px solid var(--tertiary-background-color);
@@ -121,63 +128,111 @@ button:hover{
     margin-top: 20px;
     padding: 10px;
     width: 100%;
-    display: block;
+    display: none;
+    transition: 1s;
 }
+/* Everything inside of a card */
 .card > *{
     display: flex;
     justify-content: center;
+    transition:1s;
 }
+/* Spans that are inside of a card */
 .card > span{
     font-size: 20px;
     font-weight: 700;
     margin: 10px 0;
 }
+/* DEPRECATED. Was meant to originally show how many points were lost/gained per question */
+.question-card::after{
+    content: "";
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0 0;
+    display:flex;
+    justify-content: center;
+}
+/* Spans that are inside of a card */
 .flex-span{
     padding: 0px 3px;
 }
-.timer{
-    border: 1px solid var(--tertiary-background-color);
-    /* display: inline-block; */
-    padding: 5px 10px;
-}
+/* Buttons that are stacked on top of other elements */
 .stacked-button{
     margin-bottom: 10px;
 }
+/* Divs containing inputs */
 .input-container{
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 10px 0;
+    margin-top: 10px;
 }
+/* Inputs */
 .input-container > *{
     margin: 0 5px;
 }
-.ca:focus{
-    outline: solid 3px var(--success-color-focus);
-    box-shadow:unset 0 1px 1px var(--success-color), 0 0 8px var(--success-color-focus);
+/* Labels */
+.error-message{
+    display: block;
+    color: transparent;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 400;
+    margin: 0;
+    text-align: center;
+    transition: 1s;
 }
-.ia:focus{
-    outline: solid 3px var(--danger-color-focus);
-    box-shadow: 0 0 1px 1px var(--dark-color), 0 0 8px var(--danger-color-focus);
+/* Highscores in the list */
+.highscore-li{
+    display: block;
+    padding: 5px 10px;
+    border: 1px solid var(--tertiary-background-color);
+    border-radius: 3px;
+    margin: 5px 0;
+    transition: 1s;
+    text-align: center;
 }
+/* Timer */
+#timerli{
+    border: 3px solid var(--tertiary-background-color);
+    /* display: inline-block; */
+    padding: 5px 10px;
+    transition: all 1s;
+}
+/* Timer when it's running */
 #tracker-card{
     display: block;
     margin-top: 70px;
 }
+/* Intro Card */
 #intro-card{
     display: block;
 }
+/* Review Card */
 #review-card{
     margin-bottom: 70px;
 }
+/* Initials Input */
 #initials{
     text-align: center;
     font-size: 20px;
     font-weight: 700;
     margin: 10px 0;
 }
+/* Initials Input Placeholder */
 #initials::placeholder{
     color: var(--footer-text-color);
     font-size: 14px;
     font-weight: 400;
+}
+/* Highscores Card */
+#highscores-card{
+    margin-bottom: 70px;
+    width: 100%;
+}
+/* Highscores List */
+#highscores-list{
+    display: block;
 }
